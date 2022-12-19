@@ -1,3 +1,4 @@
 import './style.css'
 
-console.log('hello world');
+
+console.log(process.env.API_KEY, process.env.WEATHER);

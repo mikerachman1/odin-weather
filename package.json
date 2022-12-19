@@ -19,6 +19,7 @@
   "homepage": "https://github.com/mikerachman1/odin-weather#readme",
   "devDependencies": {
     "css-loader": "^6.7.3",
+    "dotenv-webpack": "^8.0.1",
     "eslint": "^8.30.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.5.0",
@@ -27,5 +28,8 @@
     "style-loader": "^3.3.1",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1"
+  },
+  "dependencies": {
+    "path-browserify": "^1.0.1"
   }
 }
