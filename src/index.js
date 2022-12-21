@@ -13,7 +13,7 @@ const generateSearchForm = () => {
                 <label for='city'>Search for a City:
                   <input type="text" id="city" name="city" value="London, uk">
                 </label>
-                <input type="submit" value="Submit">
+                <input type="submit" value="Submit" class="submit">
               </form>`;
 
   contentDiv.appendChild(searchBox)
@@ -32,7 +32,11 @@ const generateBody = () => {
               <p>Wind Speed: <span id='windspeed'></span> <span id='unit-wind'>meters/sec</span></p>
               <button id='toggle-units' data-unit='metric'>Switch to Imperial Units</button>`;
 
+  const errorDiv = document.createElement('div');
+  errorDiv.classList.add('error');
+
   contentDiv.appendChild(weatherInfo);
+  document.querySelector('body').appendChild(errorDiv);
 }
 
 
@@ -49,19 +53,21 @@ const displayData = (data) => {
   document.querySelector('#windspeed').innerHTML = windspeed;
   document.querySelector('#location').innerHTML = placeName;
 
-  console.log(temperature, humidity, description, windspeed, placeName);
+  // console.log(temperature, humidity, description, windspeed, placeName);
 }
 
 const fetchWeatherData = async (location, units) => {
   try {
     const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${location}&APPID=${process.env.API_KEY}&units=${units}`, {mode: 'cors'});
     const searchData = await response.json();
-    console.log(searchData);
+    // console.log(searchData);
 
     displayData(searchData);
-
+    document.querySelector('.error').innerHTML = '';
   } catch (error) {
     console.log(error);
+    document.querySelector('.error').innerHTML = 'Oh no! Please enter a valid city name! (ex. Paris, fr)';
+    currentLocation = 'London, uk';
   }
 }
 
@@ -83,14 +89,14 @@ const addListeners = () => {
       unitTemp.innerHTML = '°F';
       unitWind.innerHTML = 'miles/hour';
       currentUnit = 'imperial';
-      fetchWeatherData(currentLocation, 'imperial');
+      fetchWeatherData(currentLocation, currentUnit);
     } else {
       toggleUnitsButton.dataset.unit = 'metric';
       toggleUnitsButton.innerHTML = 'Switch to Imperial Units';
       unitTemp.innerHTML = '°C';
       unitWind.innerHTML = 'meters/sec';
       currentUnit = 'metric';
-      fetchWeatherData(currentLocation, 'metric');
+      fetchWeatherData(currentLocation, currentUnit);
     }
   })
 }
